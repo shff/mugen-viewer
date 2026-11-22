@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MUGEN / Character inspector</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header><a class="brand" href="./">M<span>／</span>VIEWER</a><span class="subtitle">MUGEN CHARACTER INSPECTOR</span><label class="open" for="zip">＋ Open ZIP</label><input id="zip" type="file" accept=".zip,application/zip" hidden></header>
+  <main>
+    <section class="workspace">
+      <div class="workspace-heading"><span><i></i> <span id="archive-name">NO ARCHIVE LOADED</span></span><span>LOCAL · READ ONLY</span></div>
+      <div id="stage">
+        <div id="empty"><div class="file-icon">↥</div><h1>A closer look at your fighter.</h1><p>Drop a MUGEN character ZIP here</p><label class="primary" for="zip">Choose a ZIP <span>↗</span></label><small>Your files stay in your browser.</small></div>
+        <canvas id="preview" width="1200" height="800" hidden aria-label="Character animation preview"></canvas>
+        <div id="preview-label" hidden><span id="action-name">Idle</span><small id="frame-info"></small></div>
+        <div id="drop-overlay" hidden>Drop ZIP to inspect</div>
+      </div>
+      <div class="toolbar"><span id="status" role="status">Ready to inspect</span><div><button id="play" disabled>Pause</button><button id="restart" disabled aria-label="Restart animation">↺</button><label>Zoom <select id="zoom"><option value="2">2×</option><option value="3" selected>3×</option><option value="4">4×</option><option value="1">1×</option></select></label></div></div>
+      <div id="error" role="alert" hidden></div>
+      <section id="simulation" hidden>
+        <div class="section-title">INPUTS & GAME EVENTS <button id="reset-runtime">Reset character</button></div>
+        <p class="hint">Hold directions with the mouse, touch, or arrow keys. Attack keys: A / S / D / Z / X / C. Command clicks force the linked state, bypassing gameplay conditions.</p>
+        <div id="inputs" class="input-buttons"></div>
+        <div id="events" class="input-buttons"></div>
+        <div class="context-controls">
+          <label><input id="guard-threat" type="checkbox"> Incoming attack / guard distance</label>
+          <label>Power <input id="power" type="number" min="0" max="3000" value="3000"></label>
+          <label>Opponent distance <input id="opponent-distance" type="number" value="80"></label>
+          <label>Hit strength <select id="hit-strength"><option value="0">Light</option><option value="1">Medium</option><option value="2">Heavy</option></select></label>
+        </div>
+        <p id="runtime-info" role="status"></p>
+        <p class="hint">State runner: transitions, animation, variables, and basic physics. Opponent collisions, helpers, projectiles, effects, and sound are not simulated. Unsupported rules are listed below.</p>
+        <details><summary>State transitions</summary><ol id="transitions"></ol></details>
+        <details><summary>Runtime limitations <span id="limitation-count">0</span></summary><ul id="limitations"></ul></details>
+      </section>
+    </section>
+    <aside>
+      <div class="eyebrow">CHARACTER DOSSIER <span>01</span></div><h2 id="character-name">No character</h2><p id="author">Load a ZIP to get started.</p>
+      <dl id="properties"><div><dt>Sprites</dt><dd>—</dd></div><div><dt>Animations</dt><dd>—</dd></div><div><dt>Palettes</dt><dd>—</dd></div></dl>
+      <div class="section-title">COMMANDS <span id="command-count"></span></div><p class="hint">Trigger a move directly. Power, health, palette, and other entry conditions are bypassed; the entered state runs its own animation and transitions.</p><input id="search" type="search" placeholder="Filter commands…" aria-label="Filter commands" disabled><div id="commands"></div>
+      <details id="all-animations" hidden><summary>Raw animations <span id="animation-count"></span></summary><p class="hint">Selecting a raw animation leaves the state runner. Use an input, event, or Reset character to return.</p><input id="animation-search" type="search" placeholder="Filter animations…" aria-label="Filter animations" disabled><div id="actions" class="actions"></div></details>
+      <footer><span class="dot"></span> Browser only. No uploads.</footer>
+    </aside>
+  </main>
+</body>
+</html>
